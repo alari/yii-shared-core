@@ -6,7 +6,7 @@
 class ExtForm extends CActiveForm
 {
     /**
-     * @var IFormMixin[]
+     * @var IFormMixinBehavior[]
      */
     private $formBehaviors = array();
 
@@ -19,10 +19,10 @@ class ExtForm extends CActiveForm
         foreach($this->model->behaviors() as $behavior) {
             if(!($behavior instanceof IBehavior))
                 $behavior = Yii::createComponent($behavior);
-            if(!($behavior instanceof IFormMixin)) {
+            if(!($behavior instanceof IFormMixinBehavior)) {
                 continue;
             }
-            /** @var $behavior IFormMixin */
+            /** @var $behavior IFormMixinBehavior */
             $this->formBehaviors[] = $behavior;
             $behavior->onFormInit($this);
         }

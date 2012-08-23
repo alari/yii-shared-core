@@ -3,7 +3,7 @@
  * @author alari
  * @since 8/22/12 5:16 PM
  */
-interface IFormMixin
+interface IFormMixinBehavior
 {
     public function onFormInit(ExtForm $form);
 
