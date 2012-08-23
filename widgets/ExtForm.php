@@ -40,7 +40,6 @@ class ExtForm extends CActiveForm
         foreach($this->formBehaviors as $behavior) {
             $behavior->beforeFormEnd($this);
         }
-
         parent::run();
     }
 }
