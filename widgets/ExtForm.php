@@ -15,11 +15,12 @@ class ExtForm extends CActiveForm
      */
     public $model;
 
-    public function init() {
-        foreach($this->model->behaviors() as $behavior) {
-            if(!($behavior instanceof IBehavior))
+    public function init()
+    {
+        foreach ($this->model->behaviors() as $behavior) {
+            if (!($behavior instanceof IBehavior))
                 $behavior = Yii::createComponent($behavior);
-            if(!($behavior instanceof IFormMixinBehavior)) {
+            if (!($behavior instanceof IFormMixinBehavior)) {
                 continue;
             }
             /** @var $behavior IFormMixinBehavior */
@@ -30,14 +31,27 @@ class ExtForm extends CActiveForm
         parent::init();
     }
 
-    public function inject() {
-        foreach($this->formBehaviors as $behavior) {
+    public function inject()
+    {
+        foreach ($this->formBehaviors as $behavior) {
             $behavior->formInjectInside($this);
         }
     }
 
-    public function run() {
-        foreach($this->formBehaviors as $behavior) {
+    public function wysiwyg(CModel $model, $attribute, $htmlOptions = array())
+    {
+        // TODO: remove staticPages dependency
+        if (Yii::app()->hasModule("staticPages")) {
+            return $this->widget("staticPages.widgets.staticPages.ContentEditor",
+                array("model" => $model, "attribute" => $attribute, "htmlOptions" => $htmlOptions));
+        } else {
+            return $this->textArea($model, $attribute, $htmlOptions);
+        }
+    }
+
+    public function run()
+    {
+        foreach ($this->formBehaviors as $behavior) {
             $behavior->beforeFormEnd($this);
         }
         parent::run();
